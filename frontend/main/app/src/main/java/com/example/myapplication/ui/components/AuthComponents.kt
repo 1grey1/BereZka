@@ -1,10 +1,9 @@
 package com.example.myapplication.ui.components
-import androidx.compose.foundation.layout.padding
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -16,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -51,6 +51,20 @@ import com.example.myapplication.ui.theme.Night
 import com.example.myapplication.ui.theme.Night2
 import com.example.myapplication.ui.theme.WhiteSoft
 
+/**
+ * Базовый фон для auth-экранов.
+ *
+ * Используется как контейнер верхнего уровня для:
+ * - welcome screen
+ * - login screen
+ * - register screen
+ *
+ * Внутри рисуются:
+ * - основной тёмный градиентный фон;
+ * - декоративные размытые цветовые пятна;
+ * - волнообразные формы сверху;
+ * - пользовательский content.
+ */
 @Composable
 fun AuthGradientPage(
     content: @Composable BoxScope.() -> Unit
@@ -64,7 +78,15 @@ fun AuthGradientPage(
                 )
             )
     ) {
+        /**
+         * Декоративный слой с мягкими размытыми кругами.
+         *
+         * Эти элементы не несут функциональной нагрузки,
+         * а только формируют фирменный визуальный стиль.
+         */
         Box(modifier = Modifier.matchParentSize()) {
+
+            // Левое верхнее зелёное свечение
             Box(
                 modifier = Modifier
                     .offset(x = (-40).dp, y = 60.dp)
@@ -78,6 +100,7 @@ fun AuthGradientPage(
                     .blur(18.dp)
             )
 
+            // Правое верхнее голубоватое свечение
             Box(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -92,6 +115,7 @@ fun AuthGradientPage(
                     .blur(22.dp)
             )
 
+            // Левое нижнее светло-зелёное свечение
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
@@ -107,6 +131,12 @@ fun AuthGradientPage(
             )
         }
 
+        /**
+         * Декоративные волны в верхней части экрана.
+         *
+         * Рисуются вручную через Canvas и Path.
+         * Используются только для оформления.
+         */
         Canvas(
             modifier = Modifier
                 .fillMaxWidth()
@@ -114,6 +144,7 @@ fun AuthGradientPage(
                 .align(Alignment.TopCenter)
                 .offset(y = 110.dp)
         ) {
+            // Первая волна
             val wave1 = Path().apply {
                 moveTo(0f, size.height * 0.55f)
                 cubicTo(
@@ -131,6 +162,7 @@ fun AuthGradientPage(
                 close()
             }
 
+            // Вторая волна поверх первой
             val wave2 = Path().apply {
                 moveTo(0f, size.height * 0.70f)
                 cubicTo(
@@ -152,16 +184,26 @@ fun AuthGradientPage(
                 path = wave1,
                 brush = SolidColor(BerezkaGreen.copy(alpha = 0.16f))
             )
+
             drawPath(
                 path = wave2,
                 brush = SolidColor(Color.White.copy(alpha = 0.08f))
             )
         }
 
+        // Содержимое конкретного экрана, переданное снаружи.
         content()
     }
 }
 
+/**
+ * Небольшой брендовый элемент с названием приложения.
+ *
+ * Обычно показывается в верхней части приветственного экрана.
+ * Состоит из:
+ * - декоративной иконки;
+ * - названия "береZка".
+ */
 @Composable
 fun BrandChip() {
     Row(
@@ -172,6 +214,12 @@ fun BrandChip() {
             .padding(horizontal = 14.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        /**
+         * Левый декоративный знак.
+         *
+         * Внутри собран из двух прямоугольников,
+         * образующих простую геометрическую форму.
+         */
         Box(
             modifier = Modifier
                 .size(34.dp)
@@ -189,6 +237,7 @@ fun BrandChip() {
                     .clip(RoundedCornerShape(10.dp))
                     .background(DeepForest)
             )
+
             Box(
                 modifier = Modifier
                     .align(Alignment.Center)
@@ -209,12 +258,23 @@ fun BrandChip() {
     }
 }
 
+/**
+ * Декоративная иллюстрация для welcome-экрана.
+ *
+ * Не содержит интерактивной логики.
+ * Состоит из нескольких блоков:
+ * - фоновая карточка;
+ * - верхний декоративный элемент;
+ * - центральная карточка с условным аватаром;
+ * - справа набор "чат-линий".
+ */
 @Composable
 fun WelcomeIllustration() {
     Box(
         modifier = Modifier.size(260.dp),
         contentAlignment = Alignment.Center
     ) {
+        // Основная стеклянная подложка
         Box(
             modifier = Modifier
                 .matchParentSize()
@@ -224,6 +284,7 @@ fun WelcomeIllustration() {
                 .border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(42.dp))
         )
 
+        // Верхний правый декоративный блок
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -234,6 +295,13 @@ fun WelcomeIllustration() {
                 .border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(28.dp))
         )
 
+        /**
+         * Центральный левый акцентный блок.
+         *
+         * Внутри схематично изображён человек/аватар:
+         * - круг сверху как голова;
+         * - округлый блок снизу как туловище.
+         */
         Box(
             modifier = Modifier
                 .align(Alignment.CenterStart)
@@ -265,6 +333,10 @@ fun WelcomeIllustration() {
             )
         }
 
+        /**
+         * Справа размещается набор декоративных горизонтальных линий,
+         * имитирующих сообщения или элементы интерфейса чата.
+         */
         Column(
             modifier = Modifier
                 .align(Alignment.CenterEnd)
@@ -279,6 +351,12 @@ fun WelcomeIllustration() {
     }
 }
 
+/**
+ * Примитивный элемент в виде короткой горизонтальной полосы.
+ *
+ * Используется внутри WelcomeIllustration
+ * как имитация строк текста/сообщений.
+ */
 @Composable
 fun ChatLine(width: Dp, color: Color) {
     Box(
@@ -290,6 +368,14 @@ fun ChatLine(width: Dp, color: Color) {
     )
 }
 
+/**
+ * Небольшой бейдж для экранов авторизации.
+ *
+ * Обычно используется как короткий статусный заголовок
+ * над основной карточкой, например:
+ * - "С возвращением"
+ * - "Новый росток"
+ */
 @Composable
 fun ScreenBadge(text: String) {
     Row(
@@ -300,13 +386,16 @@ fun ScreenBadge(text: String) {
             .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // Маленькая точка-индикатор слева
         Box(
             modifier = Modifier
                 .size(8.dp)
                 .clip(CircleShape)
                 .background(BerezkaGreenSoft)
         )
+
         Spacer(modifier = Modifier.width(8.dp))
+
         Text(
             text = text,
             color = WhiteSoft,
@@ -316,6 +405,16 @@ fun ScreenBadge(text: String) {
     }
 }
 
+/**
+ * Универсальная "стеклянная" карточка для форм.
+ *
+ * Используется как контейнер для:
+ * - login form
+ * - register form
+ * - других auth-блоков
+ *
+ * Содержимое передаётся через ColumnScope.
+ */
 @Composable
 fun GlassCard(
     content: @Composable ColumnScope.() -> Unit
@@ -338,6 +437,16 @@ fun GlassCard(
     )
 }
 
+/**
+ * Кастомное текстовое поле для auth-экранов.
+ *
+ * Оборачивает OutlinedTextField и задаёт общий стиль:
+ * - label над полем;
+ * - placeholder;
+ * - поддержку leading/trailing иконок;
+ * - цвета и скругления;
+ * - поддержку скрытия/отображения пароля через visualTransformation.
+ */
 @Composable
 fun AuthTextField(
     value: String,
@@ -349,6 +458,7 @@ fun AuthTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     Column {
+        // Подпись над полем
         Text(
             text = label,
             color = WhiteSoft,
@@ -364,6 +474,8 @@ fun AuthTextField(
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             textStyle = TextStyle(color = WhiteSoft, fontSize = 15.sp),
+
+            // Текст-подсказка внутри пустого поля
             placeholder = {
                 Text(
                     text = placeholder,
@@ -371,10 +483,21 @@ fun AuthTextField(
                     fontSize = 15.sp
                 )
             },
+
+            // Иконка или кастомный composable слева
             leadingIcon = leading,
+
+            // Иконка или composable справа
+            // например, "Показать / Скрыть" пароль
             trailingIcon = trailing,
+
+            // Трансформация текста:
+            // используется для скрытия пароля
             visualTransformation = visualTransformation,
+
             shape = RoundedCornerShape(16.dp),
+
+            // Общая цветовая схема поля в фокусе и без фокуса
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = WhiteSoft,
                 unfocusedTextColor = WhiteSoft,
@@ -392,6 +515,15 @@ fun AuthTextField(
     }
 }
 
+/**
+ * Основная action-кнопка.
+ *
+ * Используется для ключевых действий экрана:
+ * - "Войти"
+ * - "Зарегистрироваться"
+ *
+ * Содержит собственный зелёный градиентный фон.
+ */
 @Composable
 fun PrimaryActionButton(
     text: String,
@@ -403,9 +535,15 @@ fun PrimaryActionButton(
             .fillMaxWidth()
             .height(54.dp),
         shape = RoundedCornerShape(18.dp),
+
+        // Контейнер самой Button делаем прозрачным,
+        // потому что реальный фон рисуем вручную внутри Box.
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent
         ),
+
+        // Убираем стандартные внутренние отступы,
+        // чтобы Box занял всю площадь кнопки.
         contentPadding = PaddingValues(0.dp)
     ) {
         Box(
@@ -428,6 +566,12 @@ fun PrimaryActionButton(
     }
 }
 
+/**
+ * Вторичная action-кнопка.
+ *
+ * Используется для действий меньшего приоритета,
+ * например перехода на логин с welcome-экрана.
+ */
 @Composable
 fun SecondaryActionButton(
     text: String,
@@ -452,57 +596,6 @@ fun SecondaryActionButton(
             text = text,
             fontWeight = FontWeight.SemiBold,
             fontSize = 16.sp
-        )
-    }
-}
-
-@Composable
-fun DividerText(text: String) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .height(1.dp)
-                .background(Color.White.copy(alpha = 0.12f))
-        )
-        Text(
-            text = "  $text  ",
-            color = Muted,
-            fontSize = 13.sp
-        )
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .height(1.dp)
-                .background(Color.White.copy(alpha = 0.12f))
-        )
-    }
-}
-
-@Composable
-fun SocialButton(
-    modifier: Modifier = Modifier,
-    text: String
-) {
-    OutlinedButton(
-        onClick = {},
-        modifier = modifier.height(48.dp),
-        shape = RoundedCornerShape(14.dp),
-        border = BorderStroke(
-            1.dp,
-            Color.White.copy(alpha = 0.12f)
-        ),
-        colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = Color.White.copy(alpha = 0.06f),
-            contentColor = WhiteSoft
-        )
-    ) {
-        Text(
-            text = text,
-            fontWeight = FontWeight.SemiBold
         )
     }
 }
