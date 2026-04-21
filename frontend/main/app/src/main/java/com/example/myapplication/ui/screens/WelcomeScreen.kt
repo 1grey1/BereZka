@@ -41,7 +41,8 @@ fun WelcomeScreen(
     onRegisterClick: () -> Unit = {},
 
     // Колбэк перехода на экран входа.
-    onLoginClick: () -> Unit = {}
+    onLoginClick: () -> Unit = {},
+    onDebugClick: () -> Unit = {}
 ) {
     // Базовый контейнер страницы с фирменным фоном.
     AuthGradientPage {
@@ -106,6 +107,13 @@ fun WelcomeScreen(
             SecondaryActionButton(
                 text = "Войти",
                 onClick = onLoginClick
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            SecondaryActionButton(
+                text = "Debug DB (temporary)",
+                onClick = onDebugClick
             )
 
             Spacer(modifier = Modifier.height(16.dp))

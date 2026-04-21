@@ -9,6 +9,7 @@ import com.example.myapplication.ui.screens.LoginScreen
 import com.example.myapplication.ui.screens.RegisterScreen
 import com.example.myapplication.ui.screens.SplashScreen
 import com.example.myapplication.ui.screens.WelcomeScreen
+import com.example.myapplication.ui.screens.DebugDbScreen
 
 @Composable
 fun AuthNavGraph(
@@ -35,6 +36,9 @@ fun AuthNavGraph(
                 },
                 onLoginClick = {
                     navController.navigate(AuthRoute.Login.route)
+                },
+                onDebugClick = {
+                    navController.navigate(AuthRoute.DebugDb.route)
                 }
             )
         }
@@ -63,6 +67,12 @@ fun AuthNavGraph(
                 onForgotPasswordClick = {
                     // TODO: экран восстановления пароля
                 }
+            )
+        }
+
+        composable(AuthRoute.DebugDb.route) {
+            DebugDbScreen(
+                onBackClick = { navController.popBackStack() }
             )
         }
     }

@@ -43,4 +43,5 @@ sealed class AuthRoute(val route: String) {
      * Форма входа в существующий аккаунт.
      */
     data object Login : AuthRoute("login")
+    data object DebugDb : AuthRoute("debug_db")
 }
