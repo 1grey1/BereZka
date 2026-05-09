@@ -44,4 +44,6 @@ sealed class AuthRoute(val route: String) {
      */
     data object Login : AuthRoute("login")
     data object DebugDb : AuthRoute("debug_db")
+    data object ChatList : AuthRoute("chat_list")
+    data object ChatDialog : AuthRoute("chat_dialog/{chatId}/{peerName}")
 }
